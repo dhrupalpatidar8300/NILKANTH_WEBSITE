@@ -39,3 +39,19 @@ studio-nilakanth-atm-services/dist
 
 # OS
 .DS_Store
+# Node
+node_modules
+npm-debug.log*
+
+# Build outputs
+dist
+build
+
+# Sanity build folder
+studio-nilakanth-atm-services/dist
+
+# Vite
+.vite
+
+# OS
+.DS_Store
