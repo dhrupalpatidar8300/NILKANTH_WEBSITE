@@ -55,3 +55,6 @@ studio-nilakanth-atm-services/dist
 
 # OS
 .DS_Store
+
+.env
+
