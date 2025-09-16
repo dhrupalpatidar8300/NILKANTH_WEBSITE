@@ -1,0 +1,19 @@
+.card {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* We can move the h3 styling here too for consistency */
+.card h3,
+.card h4 {
+    margin-top: 0;
+    color: var(--cornell-red); }

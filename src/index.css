@@ -1,0 +1,23 @@
+/* Define your color palette as CSS variables */
+:root {
+    --caput-mortuum: #5B2333;
+    --white-smoke: #F7F4F3;
+    --dark-liver: #564D4A;
+    --vermilion: #F24333;
+    --cornell-red: #BA1B1D;
+}
+
+/* Add some global styles and a nice font */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    /* A clean, modern font */
+    background-color: var(--white-smoke);
+    color: var(--dark-liver);
+}
+
+h1,
+h2,
+h3 {
+    color: var(--caput-mortuum);
+}

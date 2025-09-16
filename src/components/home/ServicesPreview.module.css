@@ -1,0 +1,39 @@
+.section {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.sectionTitle {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: var(--caput-mortuum);
+}
+
+.cardContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* Creates a 3-column grid */
+    gap: 30px;
+    /* Space between cards */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card {
+    background-color: #ffffff;
+    /* Slightly brighter than the page background */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    /* Lifts the card up on hover */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+    margin-top: 0;
+    color: var(--cornell-red); }
