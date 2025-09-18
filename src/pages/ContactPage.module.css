@@ -1,0 +1,349 @@
+/* Main container */
+.main {
+    min-height: 100vh;
+}
+
+/* Hero Section */
+.heroSection {
+    background: linear-gradient(135deg, var(--caput-mortuum) 0%, var(--cornell-red) 100%);
+    color: var(--white-smoke);
+    padding: 80px 20px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.heroSection::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.03)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.08)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat;
+    opacity: 0.1;
+}
+
+.heroContent {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    z-index: 2;
+}
+
+.heroContent h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--white-smoke);
+    font-weight: 700;
+}
+
+.heroContent p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Contact Methods Section */
+.contactMethodsSection {
+    padding: 80px 20px;
+    background-color: var(--white-smoke);
+    text-align: center;
+}
+
+.contactMethodsSection h2 {
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+    color: var(--caput-mortuum);
+}
+
+.contactGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.contactCard {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.contactCard:hover {
+    transform: translateY(-5px);
+}
+
+.contactIcon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+    transform: scale(1);
+    transition: transform 0.3s ease;
+}
+
+.contactCard:hover .contactIcon {
+    transform: scale(1.1);
+}
+
+.contactCard h3 {
+    color: var(--cornell-red);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.contactValue {
+    font-weight: 600;
+    color: var(--caput-mortuum);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.contactDescription {
+    color: var(--dark-liver);
+    margin-bottom: 1.5rem;
+    opacity: 0.8;
+}
+
+.contactButton {
+    background: linear-gradient(45deg, var(--vermilion), var(--cornell-red));
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: auto;
+}
+
+.contactButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(186, 27, 29, 0.3);
+}
+
+/* Form Section */
+.formSection {
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.formContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.formContent h2 {
+    font-size: 2.5rem;
+    color: var(--caput-mortuum);
+    margin-bottom: 1rem;
+}
+
+.formContent>p {
+    font-size: 1.1rem;
+    color: var(--dark-liver);
+    margin-bottom: 2rem;
+    opacity: 0.8;
+}
+
+.contactForm {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.formGroup {
+    margin-bottom: 1.5rem;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--caput-mortuum);
+}
+
+.formGroup input,
+.formGroup textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus {
+    outline: none;
+    border-color: var(--vermilion);
+    box-shadow: 0 0 0 3px rgba(242, 67, 51, 0.1);
+}
+
+.submitButton {
+    background: linear-gradient(45deg, var(--vermilion), var(--cornell-red));
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.submitButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(186, 27, 29, 0.3);
+}
+
+/* Form Image Section */
+.formImage {
+    background: linear-gradient(135deg, var(--caput-mortuum) 0%, var(--cornell-red) 100%);
+    color: var(--white-smoke);
+    padding: 40px;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.formImage::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>') repeat;
+}
+
+.imageContent {
+    position: relative;
+    z-index: 2;
+}
+
+.imageContent h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--white-smoke);
+}
+
+.featureList {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem 0;
+}
+
+.featureList li {
+    padding: 8px 0;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    opacity: 0.9;
+}
+
+.quickContact {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.whatsappButton {
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.whatsappButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+}
+
+/* Map Section */
+.mapSection {
+    padding: 80px 20px;
+    background-color: var(--white-smoke);
+    text-align: center;
+}
+
+.mapSection h2 {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: var(--caput-mortuum);
+}
+
+.mapContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .heroContent h1 {
+        font-size: 2.5rem;
+    }
+
+    .contactGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .formContainer {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .formRow {
+        grid-template-columns: 1fr;
+    }
+
+    .contactForm {
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .heroContent h1 {
+        font-size: 2rem;
+    }
+
+    .heroContent p {
+        font-size: 1rem;
+    }
+
+    .contactMethodsSection h2,
+    .formContent h2,
+    .mapSection h2 {
+        font-size: 2rem;
+    }
+}

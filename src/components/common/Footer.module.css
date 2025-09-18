@@ -38,3 +38,24 @@
 
 .footer a:hover {
     color: var(--vermilion); }
+
+/* Responsive styles for Footer */
+@media (max-width: 900px) {
+    .footer {
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        padding: 30px 10px;
+    }
+}
+
+@media (max-width: 600px) {
+    .footer {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 20px 5px;
+    }
+    .footer li {
+        padding-left: 0;
+        justify-content: center;
+    }
+}
