@@ -2,23 +2,36 @@
     --nav-background-color: #331713
 }
 
+.logo {
+    width: 56px;
+    height: 56px;
+    background-image: url('../../assets/nilkanth_enterprises.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 16px;
+    display: flex;
+    align-items: center;
+}
+
 .navbar {
     display: flex;
     justify-content: space-between;
-    /* Pushes items to opposite ends */
     align-items: center;
     background-color: var(--nav-background-color);
-    padding: 1rem 2rem;
-
-    /* --- Sticky Navbar Logic --- */
+    padding: 0.5rem 2rem;
+    min-height: 64px;
     position: sticky;
     top: 0;
     width: 100%;
     z-index: 1000;
-    /* Ensures it stays on top of other content */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
-    /* Ensures padding is included in width */
+}
+
+.leftSection {
+    display: flex;
+    align-items: center;
 }
 
 .brand {

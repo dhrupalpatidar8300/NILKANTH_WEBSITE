@@ -19,8 +19,8 @@ function Footer() {
             </div>
             <div>
                 <h4>Contact Us</h4>
-                <p>Email: nilakanth001@gmail.com</p>
-                <p>Phone: +91 9429610405</p>
+                <p>Email: `${import.meta.env.VITE_APP_EMAIL_ADDRESS}`</p>
+                <p>Phone: `${import.meta.env.VITE_APP_CONTACT_PHONE}`</p>
             </div>
         </footer>
     );

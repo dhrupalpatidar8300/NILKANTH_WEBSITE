@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import ReCAPTCHA from "react-google-recaptcha";
 import styles from './ContactPage.module.css';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
 import Card from '../components/common/Card';
+
+const RECAPTCHA_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+const API_URL = import.meta.env.VITE_API_URL;
 
 function ContactPage() {
     const [formData, setFormData] = useState({
@@ -11,6 +15,8 @@ function ContactPage() {
         phone: '',
         message: ''
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const recaptchaRef = useRef();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -20,36 +26,70 @@ function ContactPage() {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission here
-        console.log('Form submitted:', formData);
-        // You can add email service integration here
-        alert('Thank you for your message! We will get back to you soon.');
-        setFormData({ name: '', email: '', phone: '', message: '' });
+        setIsSubmitting(true);
+        
+        try {
+            // Execute reCAPTCHA v3
+            const token = await recaptchaRef.current.executeAsync();
+            
+            // Send form data to backend
+            const response = await fetch(`${API_URL}/contact`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...formData,
+                    recaptcha_token: token
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                alert('Thank you for your message! We will get back to you soon.');
+                setFormData({ name: '', email: '', phone: '', message: '' });
+            } else {
+                alert(data.detail || 'Something went wrong. Please try again.');
+            }
+            
+            // Reset reCAPTCHA
+            recaptchaRef.current.reset();
+            
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            alert('Network error. Please check your connection and try again.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
+    const email = `${import.meta.env.VITE_APP_EMAIL_ADDRESS}`;
+    const phone = `${import.meta.env.VITE_APP_CONTACT_PHONE}`;
+    const whatsappNumber = phone ? phone.replace(/\D/g, '') : '';
     const contactMethods = [
         {
             icon: '📧',
             title: 'Email Us',
-            value: 'nilakanth001@gmail.com',
+            value: email,
             description: 'Send us an email anytime',
-            action: () => window.open('mailto:nilakanth001@gmail.com', '_blank')
+            action: () => window.open(`mailto:${email}`, '_blank')
         },
         {
             icon: '📱',
             title: 'WhatsApp',
-            value: '+91 9429610405',
+            value: phone,
             description: 'Chat with us on WhatsApp',
-            action: () => window.open('https://wa.me/919429610404', '_blank')
+            action: () => window.open(`https://wa.me/${whatsappNumber}`, '_blank')
         },
         {
             icon: '📞',
             title: 'Call Us',
-            value: '+91 9429610405',
+            value: phone,
             description: 'Call us for immediate assistance',
-            action: () => window.open('tel:+919429610404', '_blank')
+            action: () => window.open(`tel:${whatsappNumber.startsWith('91') ? '+' + whatsappNumber : whatsappNumber}`, '_blank')
         },
         {
             icon: '📍',
@@ -59,6 +99,7 @@ function ContactPage() {
             action: () => window.open('https://maps.google.com/?q=Vadodara,Gujarat,India', '_blank')
         }
     ];
+
 
     return (
         <div>
@@ -72,7 +113,7 @@ function ContactPage() {
                     </div>
                 </section>
 
-                {/* Contact Methods */}
+                {/* Contact Methods Section */}
                 <section className={styles.contactMethodsSection}>
                     <h2>Contact Us Through</h2>
                     <div className={styles.contactGrid}>
@@ -167,8 +208,17 @@ function ContactPage() {
                                     ></textarea>
                                 </div>
 
-                                <button type="submit" className={styles.submitButton}>
-                                    Send Message →
+                                <ReCAPTCHA
+                                    sitekey={RECAPTCHA_KEY}
+                                    size="invisible"
+                                    ref={recaptchaRef}
+                                />
+                                <button 
+                                    type="submit" 
+                                    className={styles.submitButton}
+                                    disabled={isSubmitting}
+                                >
+                                    {isSubmitting ? "Thank You!" : "Submit Now"}
                                 </button>
                             </form>
                         </div>
@@ -189,7 +239,7 @@ function ContactPage() {
                                     <button
                                         className={styles.whatsappButton}
                                         type="button"
-                                        onClick={() => window.open('https://wa.me/919429610404', '_blank')}
+                                        onClick={() => window.open(`https://wa.me/${whatsappNumber}`, '_blank')}
                                     >
                                         💬 WhatsApp Now
                                     </button>

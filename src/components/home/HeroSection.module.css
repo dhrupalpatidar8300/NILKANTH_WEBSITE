@@ -1,4 +1,4 @@
-/* 1. Define the glow animation using a CSS filter */
+/* Define the glow animation using a CSS filter */
 @keyframes glow {
     from {
         filter: drop-shadow(0 0 10px var(--vermilion));
@@ -9,82 +9,143 @@
     }
 }
 
-/* 2. Style the main container to be bigger and use Flexbox for layout */
+/* Main container with flex column layout */
 .heroContainer {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
     min-height: 95vh;
-    /* Makes the section almost the full height of the screen */
     background-color: #111111;
-    /* A dark background like your example */
-    padding: 0 5%;
-    /* Padding on the sides */
+    padding: 2rem 5%;
     overflow: hidden;
 }
 
-/* 3. Style the left column (text) */
-.textContent {
-    max-width: 50%;
-    color: var(--white-smoke);
-    text-align: left;
+/* Header content section (title and subtitle) */
+.headerContent {
+    text-align: center;
+    margin-bottom: 3rem;
+    width: 100%;
 }
 
-.preTitle {
-    font-size: 1rem;
-    font-weight: bold;
-    color: var(--white-smoke);
-    opacity: 0.7;
+.heroTitle {
+    font-size: 3.5rem;
     margin-bottom: 1rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
-.textContent h1 {
-    font-size: 4rem;
-    /* Big, impactful text */
-    margin-bottom: 1.5rem;
     color: var(--white-smoke);
+    text-shadow: 0 0 15px rgba(242, 67, 51, 0.5);
 }
 
-.textContent p {
-    font-size: 1.1rem;
-    max-width: 500px;
-    margin-bottom: 2rem;
-    line-height: 1.6;
+.heroSubtitle {
+    font-size: 1.5rem;
+    color: var(--gainsboro);
+    margin-bottom: 1rem;
 }
 
-/* 4. Style the right column (logo) and apply the animation */
-.logoContainer {
-    flex-basis: 40%;
+/* Two-column layout for images */
+.imageColumns {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin: 2rem 0 3rem;
+    gap: 2rem;
+}
+
+.imageColumn {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    max-width: 500px;
 }
 
-.glowingLogo {
-    max-width: 400px;
+/* CEO image styling */
+.ceoImage {
+    max-width: 100%;
     height: auto;
-
-    /* Apply the animation here! */
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
     animation: glow 2.5s infinite alternate ease-in-out;
 }
 
-/* 5. Style the button */
+.ceoImage:hover {
+    transform: scale(1.02);
+}
+
+/* Logo styling with glow effect */
+.glowingLogo {
+    max-width: 100%;
+    height: auto;
+    animation: glow 2.5s infinite alternate ease-in-out;
+}
+
+/* Footer content section (description and CTA button) */
+.footerContent {
+    text-align: center;
+    margin-top: auto;
+    padding: 2rem 0;
+}
+
+.description {
+    font-size: 1.2rem;
+    color: var(--white-smoke);
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* CTA Button styling */
 .ctaButton {
     background-color: transparent;
     color: var(--white-smoke);
     border: 2px solid var(--white-smoke);
-    padding: 15px 30px;
-    font-size: 1rem;
+    padding: 15px 40px;
+    font-size: 1.1rem;
     font-weight: bold;
     border-radius: 50px;
-    /* Pill-shaped button */
     cursor: pointer;
     transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .ctaButton:hover {
     background-color: var(--vermilion);
     border-color: var(--vermilion);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(242, 67, 51, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 900px) {
+    .imageColumns {
+        flex-direction: column;
+    }
+    
+    .imageColumn {
+        margin: 1rem 0;
+    }
+    
+    .heroTitle {
+        font-size: 2.5rem;
+    }
+    
+    .heroSubtitle {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .heroContainer {
+        padding: 1rem 1rem;
+    }
+    
+    .heroTitle {
+        font-size: 2rem;
+    }
+    
+    .ctaButton {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
 }
