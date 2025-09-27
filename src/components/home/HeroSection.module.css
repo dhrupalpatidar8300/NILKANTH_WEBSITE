@@ -57,10 +57,12 @@
     max-width: 500px;
 }
 
-/* CEO image styling */
-.ceoImage {
-    max-width: 100%;
-    height: auto;
+/* CEO image and Logo styling - SAME SIZE */
+.ceoImage,
+.glowingLogo {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease;
@@ -69,13 +71,6 @@
 
 .ceoImage:hover {
     transform: scale(1.02);
-}
-
-/* Logo styling with glow effect */
-.glowingLogo {
-    max-width: 100%;
-    height: auto;
-    animation: glow 2.5s infinite alternate ease-in-out;
 }
 
 /* Footer content section (description and CTA button) */
