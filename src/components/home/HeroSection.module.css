@@ -1,11 +1,11 @@
 /* Define the glow animation using a CSS filter */
 @keyframes glow {
     from {
-        filter: drop-shadow(0 0 10px var(--vermilion));
+        filter: drop-shadow(0 0 10px var(--caput-mortuum));
     }
 
     to {
-        filter: drop-shadow(0 0 30px var(--cornell-red));
+        filter: drop-shadow(0 0 30px var(--caput-mortuum));
     }
 }
 
@@ -35,7 +35,7 @@
 
 .heroSubtitle {
     font-size: 1.5rem;
-    color: var(--gainsboro);
+    color: var(--white-smoke);
     margin-bottom: 1rem;
 }
 

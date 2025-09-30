@@ -1,5 +1,5 @@
 :root {
-    --nav-background-color: #331713
+    --nav-background-color: var(--caput-mortuum);
 }
 
 .logo {

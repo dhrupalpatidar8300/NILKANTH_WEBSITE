@@ -229,6 +229,79 @@
     box-shadow: 0 10px 25px rgba(186, 27, 29, 0.3);
 }
 
+/* Location Autocomplete Styles */
+.locationContainer {
+    position: relative;
+}
+
+.loadingIndicator {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+    color: var(--vermilion);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.suggestionsList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 2px solid #e9ecef;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.suggestionItem {
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #f1f3f4;
+    transition: background-color 0.2s ease;
+    font-size: 0.95rem;
+    color: var(--caput-mortuum);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.suggestionItem:hover {
+    background-color: #f8f9fa;
+}
+
+.suggestionItem:last-child {
+    border-bottom: none;
+}
+
+.gujaratLocation {
+    background-color: rgba(255, 247, 237, 0.7);
+    border-left: 3px solid var(--vermilion);
+}
+
+.gujaratTag {
+    font-size: 0.75rem;
+    background-color: var(--vermilion);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 8px;
+    font-weight: 600;
+}
+
 /* Form Image Section */
 .formImage {
     background: linear-gradient(135deg, var(--caput-mortuum) 0%, var(--cornell-red) 100%);

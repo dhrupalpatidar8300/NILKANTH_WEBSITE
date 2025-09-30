@@ -13,10 +13,16 @@ function ContactPage() {
         name: '',
         email: '',
         phone: '',
+        location: '',
         message: ''
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [locationSuggestions, setLocationSuggestions] = useState([]);
+    const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
+    const [showSuggestions, setShowSuggestions] = useState(false);
     const recaptchaRef = useRef();
+    const locationTimeoutRef = useRef();
+    const locationInputRef = useRef();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -24,6 +30,138 @@ function ContactPage() {
             ...prev,
             [name]: value
         }));
+        
+        // Handle location autocomplete
+        if (name === 'location') {
+            handleLocationSearch(value);
+        }
+    };
+
+    const handleLocationSearch = (query) => {
+        // Clear previous timeout
+        if (locationTimeoutRef.current) {
+            clearTimeout(locationTimeoutRef.current);
+        }
+
+        if (query.length < 2) {
+            setLocationSuggestions([]);
+            setShowSuggestions(false);
+            return;
+        }
+
+        // Debounce the search
+        locationTimeoutRef.current = setTimeout(async () => {
+            setIsLoadingSuggestions(true);
+            
+            try {
+                // Gujarat viewbox coordinates (roughly): 68.0, 20.0, 75.0, 25.0
+                const response = await fetch(
+                    `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=in&limit=10&addressdetails=1&viewbox=68.0,20.0,75.0,25.0&bounded=0`,
+                    {
+                        headers: {
+                            'User-Agent': 'Nilkanth ATM Services Contact Form'
+                        }
+                    }
+                );
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const suggestions = data.map(item => ({
+                        display_name: formatLocationName(item),
+                        full_name: item.display_name,
+                        is_gujarat: isLocationInGujarat(item)
+                    }));
+                    
+                    // Sort results to prioritize Gujarat locations
+                    const sortedSuggestions = suggestions.sort((a, b) => {
+                        if (a.is_gujarat && !b.is_gujarat) return -1;
+                        if (!a.is_gujarat && b.is_gujarat) return 1;
+                        return 0;
+                    });
+                    
+                    setLocationSuggestions(sortedSuggestions);
+                    setShowSuggestions(true);
+                }
+            } catch (error) {
+                console.error('Error fetching location suggestions:', error);
+                // Silently fail - user can continue with their input
+            } finally {
+                setIsLoadingSuggestions(false);
+            }
+        }, 300);
+    };
+
+    const formatLocationName = (item) => {
+        const address = item.address || {};
+        const parts = [];
+        
+        // Check for village first as it's more specific
+        if (address.village) {
+            parts.push(address.village);
+        } else if (address.town) {
+            parts.push(address.town);
+        } else if (address.city) {
+            parts.push(address.city);
+        } else if (address.hamlet) {
+            parts.push(address.hamlet);
+        } else if (address.locality) {
+            parts.push(address.locality);
+        }
+        
+        // Add district for better identification within Gujarat
+        if (address.county || address.district) {
+            parts.push(address.county || address.district);
+        }
+        
+        if (address.state) {
+            parts.push(address.state);
+        }
+        
+        return parts.length > 0 ? parts.join(', ') : item.display_name.split(',')[0];
+    };
+    
+    const isLocationInGujarat = (item) => {
+        const address = item.address || {};
+        const fullName = item.display_name || '';
+        const gujaratKeywords = ['Gujarat', 'Gujrat', 'Vadodara', 'Ahmedabad', 'Surat', 'Rajkot', 'Gandhinagar'];
+        
+        // Check if state is Gujarat
+        if (address.state && address.state.toLowerCase().includes('gujarat')) {
+            return true;
+        }
+        
+        // Check if display name contains any Gujarat keywords
+        for (const keyword of gujaratKeywords) {
+            if (fullName.includes(keyword)) {
+                return true;
+            }
+        }
+        
+        return false;
+    };
+
+    const handleLocationSelect = (suggestion) => {
+        setFormData(prev => ({
+            ...prev,
+            location: suggestion.display_name
+        }));
+        setShowSuggestions(false);
+        setLocationSuggestions([]);
+    };
+
+    const handleLocationKeyDown = (e) => {
+        if (!showSuggestions || locationSuggestions.length === 0) return;
+        
+        if (e.key === 'Escape') {
+            setShowSuggestions(false);
+        }
+    };
+
+    const handleLocationBlur = () => {
+        // Delay hiding suggestions to allow for clicks
+        setTimeout(() => {
+            setShowSuggestions(false);
+        }, 200);
     };
 
     const handleSubmit = async (e) => {
@@ -50,7 +188,7 @@ function ContactPage() {
             
             if (response.ok) {
                 alert('Thank you for your message! We will get back to you soon.');
-                setFormData({ name: '', email: '', phone: '', message: '' });
+                setFormData({ name: '', email: '', phone: '', location: '', message: '' });
             } else {
                 alert(data.detail || 'Something went wrong. Please try again.');
             }
@@ -183,16 +321,53 @@ function ContactPage() {
                                     </div>
                                 </div>
 
-                                <div className={styles.formGroup}>
-                                    <label htmlFor="phone">Phone Number</label>
-                                    <input
-                                        type="tel"
-                                        id="phone"
-                                        name="phone"
-                                        value={formData.phone}
-                                        onChange={handleInputChange}
-                                        placeholder="Enter your phone number"
-                                    />
+                                <div className={styles.formRow}>
+                                    <div className={styles.formGroup}>
+                                        <label htmlFor="phone">Phone Number</label>
+                                        <input
+                                            type="tel"
+                                            id="phone"
+                                            name="phone"
+                                            value={formData.phone}
+                                            onChange={handleInputChange}
+                                            placeholder="Enter your phone number"
+                                        />
+                                    </div>
+                                    <div className={styles.formGroup}>
+                                        <label htmlFor="location">Location *</label>
+                                        <div className={styles.locationContainer}>
+                                            <input
+                                                ref={locationInputRef}
+                                                type="text"
+                                                id="location"
+                                                name="location"
+                                                value={formData.location}
+                                                onChange={handleInputChange}
+                                                onKeyDown={handleLocationKeyDown}
+                                                onBlur={handleLocationBlur}
+                                                required
+                                                placeholder="Enter your city or location"
+                                                autoComplete="off"
+                                            />
+                                            {isLoadingSuggestions && (
+                                                <div className={styles.loadingIndicator}>🔍</div>
+                                            )}
+                                            {showSuggestions && locationSuggestions.length > 0 && (
+                                                <ul className={styles.suggestionsList}>
+                                                    {locationSuggestions.map((suggestion, index) => (
+                                                        <li
+                                                            key={index}
+                                                            className={`${styles.suggestionItem} ${suggestion.is_gujarat ? styles.gujaratLocation : ''}`}
+                                                            onClick={() => handleLocationSelect(suggestion)}
+                                                        >
+                                                            {suggestion.is_gujarat ? '🏠' : '📍'} {suggestion.display_name}
+                                                            {suggestion.is_gujarat && <span className={styles.gujaratTag}>Gujarat</span>}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div className={styles.formGroup}>
